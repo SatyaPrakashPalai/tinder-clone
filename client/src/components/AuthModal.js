@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import styles from "./auth_modal.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
-function AuthModal({ setShowModal }) {
+import authLogo from "../images/tinder_logo.png";
+import GoogleButton from "./GoogleButton";
+
+function AuthModal({ setShowModal, newUser }) {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
@@ -22,48 +25,21 @@ function AuthModal({ setShowModal }) {
         >
           <CloseIcon fontSize="large" />
         </IconButton>
-        <div className={styles["form-wrapper"]}>
-          <p className={styles["heading"]}>Create Account</p>
-          <form className={styles["form"]}>
-            <label>Email</label>
-            <input
-              className={styles["input"]}
-              required="true"
-              type="email"
-              placeholder="email"
-              onChange={(e) => {
-                setEmail(e.target.value);
-                console.log(email);
-              }}
-            />
-            <label>Password</label>
-            <input
-              className={styles["input"]}
-              required="true"
-              type="password"
-              placeholder="password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-                console.log(password);
-              }}
-            />
-            <label>Confirm Password</label>
-            <input
-              className={styles["input"]}
-              required="true"
-              type="password"
-              placeholder="confirm password"
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                console.log(confirmPassword);
-              }}
-            />
-            <input
-              className={styles["input"]}
-              type="submit"
-              onClick={handleSubmit}
-            />
-          </form>
+        <div className={styles["form-image-wrapper"]}>
+          <img style={{ width: "36px" }} src={authLogo} />
+          <div className={styles["form-wrapper"]}>
+            {newUser ? (
+              <p className={styles["heading"]}>Create Account</p>
+            ) : (
+              <p className={styles["heading"]}>Get Started</p>
+            )}
+
+            <p className={styles["terms"]}>
+              By clicking Log In, you agree to our Terms. Learn ow we process
+              your data in our Privacy Policy and Cookie Policy.
+            </p>
+            <GoogleButton />
+          </div>
         </div>
       </div>
     </div>

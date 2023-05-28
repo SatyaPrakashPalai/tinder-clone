@@ -5,8 +5,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
+import { auth, provider } from "../firebase";
+import { signInWithPopup } from "firebase/auth";
 
-function Navbar() {
+function Navbar({ setShowModal, setNewUser }) {
   const authToken = true;
   const [display, setDisplay] = useState("none");
   const handleClick = () => {
@@ -17,9 +19,19 @@ function Navbar() {
     }
     console.log(display);
   };
+  const handleLogin = () => {
+    setShowModal(true);
+    setNewUser(false);
+  };
 
   return (
-    <nav style={{ overflow: "hidden", maxWidth: "100vw", maxHeight: "100vh" }}>
+    <nav
+      style={{
+        // overflow: "hidden",
+        maxWidth: "100vw",
+        maxHeight: "100vh",
+      }}
+    >
       <div className={styles["navbar"]}>
         <div className={styles["left-part"]}>
           <img
@@ -35,7 +47,9 @@ function Navbar() {
         </div>
         <div className={styles["right-part"]}>
           <p>Languages</p>
-          <button className={styles["primary-button"]}>Log in</button>
+          <button className={styles["primary-button"]} onClick={handleLogin}>
+            Log in
+          </button>
         </div>
       </div>
       <div className={styles["mobile-navbar"]}>
