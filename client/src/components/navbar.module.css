@@ -3,13 +3,14 @@
     /* text-align: center; */
     align-items: center;
     height: 90px;
-    /* width: 100vw; */
+    width: 100%;
+    box-sizing: border-box;
     display: flex;
     color:white;
     background: linear-gradient(180deg, #000000 30.91%, rgba(0, 0, 0, 0) 103.18%);
     position: absolute;
     top: 0;
-    z-index: +9999;
+    z-index: +999;
     justify-content: space-between;
 }
 .left-part{
@@ -42,8 +43,11 @@
     height: 32px;
     font-size:20px;
     font-weight: 600;
-    border:none
+    border:none;
+    cursor: pointer;    
 }
+
+
 .mobile-navbar{
     display: none;
     
@@ -88,7 +92,7 @@ li{
         padding: 0 15px 0;
         display: flex;
         justify-content: space-between;
-        z-index: 10000;
+        z-index: 999;
     }
     .burger-navbar{
         display: block;
