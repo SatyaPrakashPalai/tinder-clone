@@ -7,11 +7,14 @@
     box-sizing: border-box;
     display: flex;
     color:white;
-    background: linear-gradient(180deg, #000000 30.91%, rgba(0, 0, 0, 0) 103.18%);
     position: absolute;
     top: 0;
     z-index: +999;
     justify-content: space-between;
+}
+.shadow{
+    background: linear-gradient(180deg, #000000 30.91%, rgba(0, 0, 0, 0) 103.18%);
+
 }
 .left-part{
     display: flex;
@@ -20,6 +23,13 @@
     font-size: 18px;
     font-weight: 500;
     }
+.list{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    }    
 .right-part{
     display: flex;
     gap: 20px;

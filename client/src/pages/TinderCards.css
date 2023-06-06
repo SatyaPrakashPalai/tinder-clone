@@ -1,3 +1,12 @@
+
+.tinder__cardContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    /* width: 100%; */
+    /* position: absolute; */
+}
 .card{
     position: relative;
     padding:20px;
@@ -17,12 +26,10 @@
     bottom: 20px;
     color: white;
 }
-.tinder__cardContainer{
-    display: flex;
-    justify-content: center;
-    margin-top: 6vh;
-    /* position: absolute; */
-}
+
 .swipe{
     position: absolute;
+}
+.swipe-info{
+    /* margin-bottom: 50px; */
 }

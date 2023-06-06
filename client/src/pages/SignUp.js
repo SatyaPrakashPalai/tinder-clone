@@ -9,6 +9,7 @@ function SignUp() {
   const [newUser, setNewUser] = useState(false);
   const authToken = true;
   const [showModal, setShowModal] = useState(false);
+  const [isSignUp,setIsSignUp] = useState(true);
   const handleClick = () => {
     setNewUser(true);
     // console.log(newUser);
@@ -24,7 +25,7 @@ function SignUp() {
           Create account
         </button>
       </div>
-      {showModal && <AuthModal setShowModal={setShowModal} newUser={newUser} />}
+      {showModal && <AuthModal setShowModal={setShowModal} newUser={newUser} isSignUp={isSignUp}/>}
     </div>
   );
 }

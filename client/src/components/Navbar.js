@@ -5,10 +5,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
-import { auth, provider } from "../firebase";
-import { signInWithPopup } from "firebase/auth";
 
-function Navbar({ setShowModal, setNewUser }) {
+function Navbar({ setShowModal, setNewUser, minimal }) {
   const authToken = true;
   const [display, setDisplay] = useState("none");
   const handleClick = () => {
@@ -32,18 +30,23 @@ function Navbar({ setShowModal, setNewUser }) {
         maxHeight: "100vh",
       }}
     >
-      <div className={styles["navbar"]}>
+      <div className={`${styles["navbar"]} ${!minimal && styles["shadow"]}`}>
         <div className={styles["left-part"]}>
           <img
             className={styles["logo-container"]}
-            src={whiteLogo}
+            src={minimal ? colorLogo : whiteLogo}
             alt="logo"
           />
-          <p>Products</p>
-          <p>Learn</p>
-          <p>Safety</p>
-          <p>Support</p>
-          <p>Download</p>
+          <div
+            style={minimal ? { display: "none" } : { display: "inline-flex" }}
+            className={styles["list"]}
+          >
+            <p>Products</p>
+            <p>Learn</p>
+            <p>Safety</p>
+            <p>Support</p>
+            <p>Download</p>
+          </div>
         </div>
         <div className={styles["right-part"]}>
           <p>Languages</p>
