@@ -56,17 +56,42 @@ function Dashboard() {
 
   useEffect(() => {
     getUser();
-    getGenderedUsers();
   }, []);
+  useEffect(() => {
+    getGenderedUsers();
+  }, [user]);
 
-  const swiped = (direction, nameToDelete) => {
-    console.log("removing" + nameToDelete);
+  const updateMatches = async (matchedUserId) => {
+    try {
+      await axios.put("http://localhost:8000/addmatch", {
+        userId,
+        matchedUserId,
+      });
+      getUser();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(user);
+
+  const swiped = (direction, swipedUserId) => {
+    if (direction === "right") {
+      updateMatches(swipedUserId);
+    }
     setLastDirection(direction);
   };
 
   const outOfFrame = (name) => {
     console.log(name + " left the screen!");
   };
+
+  const matchedUserIds = user?.matches
+    .map(({ user_id }) => user_id)
+    .concat(userId);
+
+  const filteredGenderedUsers = genderedUsers?.filter(
+    (genderedUsers) => !matchedUserIds.includes(genderedUsers.user_id)
+  );
 
   return (
     <>
@@ -83,21 +108,21 @@ function Dashboard() {
           <div style={{ display: "flex", height: "100%" }}>
             <ChatContainer user={user} />
             <div style={{ width: "100%" }}>
-              <p>you swiped {lastDirection}</p>
+              {/* <p>you swiped {lastDirection}</p> */}
               <div className="tinder__cardContainer">
-                {people.map((person) => (
+                {filteredGenderedUsers?.map((genderedUser) => (
                   <TinderCard
                     className="swipe"
-                    key={person.name}
+                    key={genderedUser.first_name}
                     preventSwipe={["up", "down"]}
-                    onSwipe={(dir) => swiped(dir, person.name)}
-                    // onCardLeftScreen={() => outOfFrame(person.name)}
+                    onSwipe={(dir) => swiped(dir, genderedUser.user_id)}
+                    onCardLeftScreen={() => outOfFrame(genderedUser.first_name)}
                   >
                     <div
-                      style={{ backgroundImage: `url(${person.imgSrc})` }}
+                      style={{ backgroundImage: `url(${genderedUser.url})` }}
                       className="card"
                     >
-                      <h3>{person.name}</h3>
+                      <h3>{genderedUser.first_name}</h3>
                     </div>
                   </TinderCard>
                 ))}
