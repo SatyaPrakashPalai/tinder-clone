@@ -1,10 +1,37 @@
-import React from 'react'
-import styles from "./matches-display.module.css"
+import React, { useEffect, useState } from "react";
+import styles from "./matches-display.module.css";
+import axios from "axios";
 
-function MatchesDisplay() {
+function MatchesDisplay({ matches }) {
+  const [matchedProfiles, setMatchedProfiles] = useState(null);
+  const matchedUserIds = matches.map(({ user_id }) => user_id);
+  const getMatches = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/users", {
+        params: { userIds: JSON.stringify(matchedUserIds) },
+      });
+      setMatchedProfiles(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getMatches();
+  }, []);
+  console.log(matchedProfiles);
   return (
-    <div className={styles['matches-display']}></div>
-  )
+    <div className={styles["matches-display"]}>
+      {matchedProfiles?.map((match, _index) => (
+        <div key={_index} className={styles["match-card"]}>
+          <div className={styles["img-container"]}>
+            <img src={match?.url} alt={match?.first_name + "profile"} />
+          </div>
+          <h3>{match?.first_name}</h3>
+        </div>
+      ))}
+    </div>
+  );
 }
 
-export default MatchesDisplay
+export default MatchesDisplay;

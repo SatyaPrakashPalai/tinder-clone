@@ -85,7 +85,7 @@ app.put("/users", async (req, res) => {
     const insertedUser = await users.updateOne(query, updateDocument);
     res.send(insertedUser);
   } catch {
-    (eroor) => {
+    (error) => {
       console.log(error);
     };
   } finally {
@@ -93,6 +93,32 @@ app.put("/users", async (req, res) => {
   }
 });
 
+app.get("/users", async (req, res) => {
+  const client = new MongoClient(uri);
+  const userIds = JSON.parse(req.query.userIds);
+  console.log(userIds);
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const users = database.collection("users");
+
+    const pipeline = [
+      {
+        $match: {
+          user_id: {
+            $in: userIds,
+          },
+        },
+      },
+    ];
+    const foundUsers = await users.aggregate(pipeline).toArray();
+    console.log(foundUsers);
+    res.send(foundUsers);
+  } finally {
+    await client.close();
+  }
+});
 app.get("/user", async (req, res) => {
   const client = new MongoClient(uri);
   const userId = req.query.userId;
@@ -106,6 +132,28 @@ app.get("/user", async (req, res) => {
     const query = { user_id: userId };
     const user = await users.findOne(query);
 
+    res.send(user);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    await client.close();
+  }
+});
+
+app.put("/addmatch", async (req, res) => {
+  const client = new MongoClient(uri);
+  const { userId, matchedUserId } = req.body;
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const users = database.collection("users");
+
+    const query = { user_id: userId };
+    const updateDocument = {
+      $addToSet: { matches: { user_id: matchedUserId } },
+    };
+    const user = await users.updateOne(query, updateDocument);
     res.send(user);
   } catch (error) {
     console.log(error);
