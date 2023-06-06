@@ -1,45 +1,36 @@
 import "./App.css";
-import Chat from "./Chat";
-import Header from "./Header";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import TinderCards from "./TinderCards";
 import SignUp from "./pages/SignUp";
-
-
+import OnBoarding from "./pages/OnBoarding";
+import ChatDisplay from "./components/ChatDisplay";
+import Header from "./components/Header";
+import { useCookies } from "react-cookie";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const authToken = cookies.AuthToken;
+
   return (
-    <div className="App">
+    <div className="app">
       <Router>
         <Routes>
-        <Route path="/signup" element={<SignUp/>}/>
-          <Route
-            path="/"
-            element={
-              <>
-                <Header />
-                <TinderCards />
-              </>
-            }
-          />
-          <Route
-            path="/chat"
-            element={
-              <>
-                <Header backButton={true} />
-                <Chat />
-              </>
-            }
-          />
+          <Route path="/signup" element={<SignUp />} />
+          {authToken && <Route path="/onboarding" element={<OnBoarding />} />}
+          {authToken && <Route path="/" element={<Dashboard />} />}
+          {authToken && (
+            <Route
+              path="/chat"
+              element={
+                <>
+                  <Header backButton={true} />
+                  <ChatDisplay />
+                </>
+              }
+            />
+          )}
         </Routes>
       </Router>
-      {/* Header */}
-
-      {/* TInder Cards */}
-      {/* Buttons at bottom */}
-
-      {/* Chat Screen */}
-      {/* Individual chats */}
     </div>
   );
 }
