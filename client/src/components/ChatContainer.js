@@ -5,17 +5,12 @@ import MatchesDisplay from "./MatchesDisplay";
 import ChatDisplay from "./ChatDisplay";
 
 function ChatContainer({ user }) {
-  const [chat, setChat] = useState(false);
-  const [match, setMatch] = useState(false);
+  const [clickedUser, setClickedUser] = useState(null);
 
-  const handleChat = () => {
-    setChat(true);
-    setMatch(false);
-  };
   const handleMatch = () => {
-    setChat(false);
-    setMatch(true);
+    setClickedUser(null);
   };
+  // console.log(clickedUser);
 
   return (
     <div className={styles["chat-container"]}>
@@ -24,17 +19,19 @@ function ChatContainer({ user }) {
         <button className={styles["option"]} onClick={handleMatch}>
           Matches
         </button>
-        <button className={styles["option"]} onClick={handleChat}>
+        <button className={styles["option"]} disabled={!clickedUser}>
           Chat
         </button>
       </div>
-      {match &&
-        (user.matches.length > 0 ? (
-          <MatchesDisplay matches={user.matches} />
-        ) : (
-          <p>No matches found.</p>
-        ))}
-      {chat && <ChatDisplay />}
+
+      {!clickedUser && (
+        <MatchesDisplay
+          matches={user.matches}
+          setClickedUser={setClickedUser}
+        />
+      )}
+
+      {clickedUser && <ChatDisplay user={user} clickedUser={clickedUser} />}
     </div>
   );
 }
