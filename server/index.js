@@ -14,7 +14,7 @@ const uri = process.env.URI;
 app.post("/signup", async (req, res) => {
   const client = new MongoClient(uri);
   const { token, email, userId } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
 
   try {
     await client.connect();
@@ -43,7 +43,7 @@ app.post("/signup", async (req, res) => {
 app.get("/gendered-users", async (req, res) => {
   const client = new MongoClient(uri);
   const gender = req.query.gender;
-  console.log("gender", gender);
+  // console.log("gender", gender);
   try {
     await client.connect();
     const database = client.db("app-data");
@@ -96,7 +96,7 @@ app.put("/users", async (req, res) => {
 app.get("/users", async (req, res) => {
   const client = new MongoClient(uri);
   const userIds = JSON.parse(req.query.userIds);
-  console.log(userIds);
+  // console.log(userIds);
 
   try {
     await client.connect();
@@ -113,12 +113,48 @@ app.get("/users", async (req, res) => {
       },
     ];
     const foundUsers = await users.aggregate(pipeline).toArray();
-    console.log(foundUsers);
+    // console.log(foundUsers);
     res.send(foundUsers);
   } finally {
     await client.close();
   }
 });
+
+app.get("/messages", async (req, res) => {
+  const client = new MongoClient(uri);
+  const { userId, correspondingUserId } = req.query;
+  console.log(userId, correspondingUserId);
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const messages = database.collection("messages");
+
+    const query = { from_userId: userId, to_userId: correspondingUserId };
+    const foundMessages = await messages.find(query).toArray();
+    res.send(foundMessages);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    await client.close();
+  }
+});
+
+app.post("/message", async (req, res) => {
+  const client = new MongoClient(uri);
+  const message = req.body.message;
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const messages = database.collection("messages");
+
+    const insertedMessage = await messages.insertOne(message);
+    res.send(insertedMessage);
+  } finally {
+    await client.close();
+  }
+});
+
 app.get("/user", async (req, res) => {
   const client = new MongoClient(uri);
   const userId = req.query.userId;

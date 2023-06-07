@@ -11,3 +11,10 @@
     box-sizing: border-box;
     flex-direction: column;
 }
+.img-container{
+    height: 35px;
+    width: 35px;
+    border-radius:15px;
+    overflow: hidden;
+    margin: 10px;
+}
