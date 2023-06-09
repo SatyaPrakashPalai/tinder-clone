@@ -1,4 +1,4 @@
-import React, { useDebugValue, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Chat from "./Chat";
 import ChatInput from "./ChatInput";
 import axios from "axios";
@@ -11,9 +11,12 @@ function ChatDisplay({ user, clickedUser }) {
 
   const getUsersMessages = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/messages", {
-        params: { userId: userId, correspondingUserId: clickedUserId },
-      });
+      const response = await axios.get(
+        "https://tinder-server.vercel.app/messages",
+        {
+          params: { userId: userId, correspondingUserId: clickedUserId },
+        }
+      );
       setUsersMessages(response.data);
     } catch (error) {
       console.log(error);
@@ -21,9 +24,12 @@ function ChatDisplay({ user, clickedUser }) {
   };
   const getClickedUsersMessages = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/messages", {
-        params: { userId: clickedUserId, correspondingUserId: userId },
-      });
+      const response = await axios.get(
+        "https://tinder-server.vercel.app/messages",
+        {
+          params: { userId: clickedUserId, correspondingUserId: userId },
+        }
+      );
       setClickedUsersMessages(response.data);
     } catch (error) {
       console.log(error);
@@ -42,8 +48,8 @@ function ChatDisplay({ user, clickedUser }) {
 
   usersMessages?.forEach((message) => {
     const formattedMessage = {};
-    formattedMessage["name"] = user?.first_name;
-    formattedMessage["img"] = user?.url;
+    formattedMessage["first_name"] = user?.first_name;
+    formattedMessage["url"] = user?.url;
     formattedMessage["message"] = message.message;
     formattedMessage["timestamp"] = message.timestamp;
     messages.push(formattedMessage);
@@ -51,8 +57,8 @@ function ChatDisplay({ user, clickedUser }) {
 
   clickedUsersMessages?.forEach((message) => {
     const formattedMessage = {};
-    formattedMessage["name"] = clickedUser?.first_name;
-    formattedMessage["img"] = clickedUser?.url;
+    formattedMessage["first_name"] = clickedUser?.first_name;
+    formattedMessage["url"] = clickedUser?.url;
     formattedMessage["message"] = message.message;
     formattedMessage["timestamp"] = message.timestamp;
     messages.push(formattedMessage);
