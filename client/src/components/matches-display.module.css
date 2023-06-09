@@ -5,6 +5,11 @@
 }
 .match-card{
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
+    cursor: pointer;
+    
+}
+.match-card:hover{
+    background-color: rgb(224, 224, 224);
 }

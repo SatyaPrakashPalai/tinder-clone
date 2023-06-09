@@ -4,7 +4,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import Avatar from "./Avatar";
 
-function MatchesDisplay({ user, matches, setClickedUser }) {
+function MatchesDisplay({ matches, setClickedUser }) {
   const [matchedProfiles, setMatchedProfiles] = useState(null);
   const matchedUserIds = matches?.map(({ user_id }) => user_id);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -42,13 +42,7 @@ function MatchesDisplay({ user, matches, setClickedUser }) {
           className={styles["match-card"]}
           onClick={() => setClickedUser(match)}
         >
-          {match?.url && (
-            <div className={styles["img-container"]}>
-              <img src={match?.url} alt={match?.first_name + "profile"} />
-            </div>
-          )}
-          {!match?.url && <Avatar user={match} />}
-          <h3>{match?.first_name}</h3>
+          <Avatar user={match} />
         </div>
       ))}
     </div>
