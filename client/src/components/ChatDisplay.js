@@ -33,6 +33,17 @@ function ChatDisplay({ user, clickedUser }) {
   useEffect(() => {
     getUsersMessages();
     getClickedUsersMessages();
+
+    // Fetch messages every 5 seconds
+    const interval = setInterval(() => {
+      getUsersMessages();
+      getClickedUsersMessages();
+    }, 50);
+
+    // Clean up the interval when component unmounts
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   console.log(usersMessages);

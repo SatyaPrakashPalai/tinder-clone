@@ -7,7 +7,7 @@ import googleIcon from "../images/google.svg";
 import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
 
-function GoogleButton({ isSignUp }) {
+function GoogleButton() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const navigate = useNavigate();
   const handleLogin = async () => {

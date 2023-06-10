@@ -12,9 +12,6 @@ function InboxDisplay({ friends, getUser }) {
   const [invites, setInvites] = useState(null);
   const userId = cookies.UserId;
   const friendUserIds = friends?.map(({ user_id }) => user_id);
-  // const [addFriend, setAddFriend] = useState(null);
-  // const [removeFriend, setRemoveFriend] = useState(null);
-  // const [forceUpdate, setForceUpdate] = useState(false);
 
   const getInvitedUsers = async () => {
     try {
