@@ -43,6 +43,14 @@ function Dashboard() {
 
   useEffect(() => {
     getUser();
+    const interval = setInterval(() => {
+      getUser();
+    }, 500);
+
+    // Clean up the interval when component unmounts
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
   useEffect(() => {
     getGenderedUsers();
