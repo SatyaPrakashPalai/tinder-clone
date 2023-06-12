@@ -2,9 +2,8 @@ import "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { GoogleAuthProvider, getAuth } from "firebase/auth";
-import dotenv from "dotenv";
+require("dotenv").config();
 
-dotenv.config(); // Load environment variables from .env file
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
